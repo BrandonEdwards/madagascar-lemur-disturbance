@@ -1,0 +1,14 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.docx
+*.aux
+*.log
+*.pdf
+*.rda
+packrat/lib*/
+*.png
+*.xlsx
+*.csv
+*.msg
