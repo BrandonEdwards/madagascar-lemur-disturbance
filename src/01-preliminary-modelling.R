@@ -3,12 +3,14 @@
 # Madagascar Lemur Disturbance
 # 01-preliminary-modelling.R
 # Created March 2022
-# Last Updated April 2022
+# Last Updated September 2022
 
 ####### Import Libraries and External Files #######
 
 library(ggplot2)
+library(ggpubr)
 library(rstan)
+theme_set(theme_pubclean())
 options(mc.cores = parallel::detectCores())
 rstan_options(auto_write = TRUE)
 
@@ -76,6 +78,7 @@ p_no_disturbance_ys <- ggplot(data = summary_ys[which(summary_ys$Parameter == "T
 rate_disturbance_ys <- ggplot(data = summary_ys[which(summary_ys$Parameter == "Lambda"), ]) +
   geom_point(aes(x = Year, y = mean, group = Season, color = Season)) +
   geom_line(aes(x = Year, y = mean, group = Season, color = Season)) +
+  ylab("Rate of Disturbance") +
   NULL
 
 ####### Disturbance by Community/Year #########################
@@ -126,6 +129,7 @@ p_no_disturbance_comm <- ggplot(data = summary_comm[which(summary_comm$Parameter
 rate_disturbance_comm <- ggplot(data = summary_comm[which(summary_comm$Parameter == "Lambda"), ]) +
   geom_point(aes(x = Year, y = mean, group = Community, color = Community)) +
   geom_line(aes(x = Year, y = mean, group = Community, color = Community)) +
+  ylab("Rate of Disturbance") +
   NULL
 
 ####### Output plots ##############################
@@ -150,3 +154,7 @@ png(filename = "output/rate_disturbance_comm.png",
 print(rate_disturbance_comm)
 dev.off()
 
+save(stan_job_ys, file = "output/stan_job_ys.rda")
+save(stan_job_comm, file = "output/stan_job_comm.rda")
+write.table(summary_ys, file = "output/summary_ys.csv", row.names = FALSE, sep = ",")
+write.table(summary_comm, file = "output/summary_comm.csv", row.names = FALSE, sep = ",")
